@@ -14,6 +14,22 @@ DBUS is the data bus; while not technically a register, a value can be 'latched'
 FLG is the flag register. The bits:
 1. Carry
 ### General Registers
-Registers are big-endian and use two's complement arithmetic.
-### Instruction Set
+Registers are big-endian and use two's complement arithmetic. There are 32 full-width general registers (denoted with register IDs R000-R01F), 64 16-bit registers subdivided from the above (denoted R020-R05F), and 128 8-bit registers subdivided from the above (denoted R060-R0DF).
 
+Sixteen-bit registers are subdivided as follows:
+R000(R020, R021), R001(R022, R023), etc
+
+Eight-bit registers are subdivided as follows:
+R000(R020(R060, R061), R021(R062, R063)), R001(R022(R064, R065), R023(R066, R067)), etc
+### Instruction Set
+#### The ALU Instruction (0b1xxxxxxxxxxxxxxxxx)
+##### ADD (0x8000)
+Adds ACC and DBUS together and puts the result in TMP.
+#### HALT (0x0000)
+Halts the VM until any interrupt bit is 1.
+#### DBUS (0x0001)
+Puts the data in the next memory address onto the bus.
+#### DACC (0x0002)
+Puts the data in the next memory address into ACC.
+#### DGRF (0x0003)
+Puts the data in the next memory address into a general register. If a full-width register is used, it puts the whole word into the register. If subdivided, it puts the part of the word aligned with the register in the register (e.g. R021 would load bits 8-15, starting from 0).
