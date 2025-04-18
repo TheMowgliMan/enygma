@@ -31,7 +31,7 @@ The flags are used to change the function of an instruction. What they mean, if 
 #### The ALU Instruction (0b1xxxxxxxxxxxxxxxxx)
 ##### ADD (0x8000)
 Adds ACC and DBUS together and puts the result in TMP.
-#### HALT (0x0000)
+#### HLT (0x0000)
 Halts the VM until any interrupt bit is 1.
 #### DBUS (0x0001)
 Puts the data in the next memory address onto the bus.
