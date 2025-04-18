@@ -22,6 +22,12 @@ R000(R020, R021), R001(R022, R023), etc
 Eight-bit registers are subdivided as follows:
 R000(R020(R060, R061), R021(R062, R063)), R001(R022(R064, R065), R023(R066, R067)), etc
 ### Instruction Set
+Instructions are formatted like so:
+ - Bits 0 through 15: instruction
+ - Bits 16-22: flags
+ - Bits 23-31: register
+
+The flags are used to change the function of an instruction. What they mean, if anything, is defined by the instruction.
 #### The ALU Instruction (0b1xxxxxxxxxxxxxxxxx)
 ##### ADD (0x8000)
 Adds ACC and DBUS together and puts the result in TMP.
