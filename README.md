@@ -55,3 +55,7 @@ Puts the data in the next memory address into a general register. If a full-widt
  - Version >= Engygma-v1
 
 Sets R000 to 1 if there is a floating-point unit, and to 0 if not.
+#### BGRF (0x0005)
+ - Version >= Enygma-v1
+
+Sets a general register to the value on the bus. If a subdivided register is used and flag bit 16 is zero, the part of the word aligned with the register is put in the register. If flag bit 16 is one and a 16-bit register is used, then the right half (16-31) of the bus is used if flag bit 17 is one, and the other half if flag bit 17 is zero. If an eight-bit register is used, then the rightmost quarter of the bus is used if flag bits 17 and 18 are both one, the middle-right quarter if 17 is one and 18 is zero, etc.
