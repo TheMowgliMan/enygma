@@ -21,6 +21,8 @@ R000(R020, R021), R001(R022, R023), etc
 
 Eight-bit registers are subdivided as follows:
 R000(R020(R060, R061), R021(R062, R063)), R001(R022(R064, R065), R023(R066, R067)), etc
+
+Note: the first eight 32-bit general registers (R000-R007) and the registers subdivided from them do not reset with an interrupt, but the others are stored and set to zero, to be restored with a RET instruction.
 ### Instruction Set
 Instructions are formatted like so:
  - Bits 0 through 15: instruction
@@ -30,12 +32,26 @@ Instructions are formatted like so:
 The flags are used to change the function of an instruction. What they mean, if anything, is defined by the instruction.
 #### The ALU Instruction (0b1xxxxxxxxxxxxxxxxx)
 ##### ADD (0x8000)
+ - Version >= Enygma-v1
+
 Adds ACC and DBUS together and puts the result in TMP.
 #### HLT (0x0000)
+ - Version >= Enygma-v1
+
 Halts the VM until any interrupt bit is 1.
 #### DBUS (0x0001)
+ - Version >= Enygma-v1
+
 Puts the data in the next memory address onto the bus.
 #### DACC (0x0002)
+ - Version >= Enygma-v1
+
 Puts the data in the next memory address into ACC.
 #### DGRF (0x0003)
+ - Version >= Enygma-v1
+
 Puts the data in the next memory address into a general register. If a full-width register is used, it puts the whole word into the register. If subdivided, it puts the part of the word aligned with the register in the register (e.g. R021 would load bits 8-15, starting from 0).
+#### HASFPU (0x0004)
+ - Version >= Engygma-v1
+
+Sets R000 to 1 if there is a floating-point unit, and to 0 if not.
