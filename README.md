@@ -12,7 +12,9 @@ TMP is a special register placed under the ALU for the same purpose.
 DBUS is the data bus; while not technically a register, a value can be 'latched' to the bus.
 
 FLG is the flag register. The bits:
-1. Carry
+1. Carry: indicates a carry is left over from an ADD instruction; 1 if so, 0 otherwise.
+2. Zero: indicates the result of an instruction was zero; 1 if so, 0 otherwise.
+3. Sign: indicates if the result of an instruction was negative; 1 if so, 0 otherwise.
 ### General Registers
 Registers are big-endian and use two's complement arithmetic. There are 32 full-width general registers (denoted with register IDs R000-R01F), 64 16-bit registers subdivided from the above (denoted R020-R05F), and 128 8-bit registers subdivided from the above (denoted R060-R0DF).
 
