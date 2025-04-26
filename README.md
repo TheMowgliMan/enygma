@@ -12,9 +12,11 @@ TMP is a special register placed under the ALU for the same purpose.
 DBUS is the data bus; while not technically a register, a value can be 'latched' to the bus.
 
 FLG is the flag register. The bits:
-1. Carry: indicates a carry is left over from an ADD instruction; 1 if so, 0 otherwise.
-2. Zero: indicates the result of an instruction was zero; 1 if so, 0 otherwise.
-3. Sign: indicates if the result of an instruction was negative; 1 if so, 0 otherwise.
+1. Carry: indicates a carry is left over from an ADD instruction; 1 if so, 0 otherwise. (>= Enygma-v1)
+2. Zero: indicates the result of an instruction was zero; 1 if so, 0 otherwise. (>= Enygma-v1)
+3. Sign: indicates if the result of an instruction was negative; 1 if so, 0 otherwise. (>= Enygma-v1)
+
+Bits not used in a version of Enygma are always set to 0.
 ### General Registers
 Registers are big-endian and use two's complement arithmetic. There are 32 full-width general registers (denoted with register IDs R000-R01F), 64 16-bit registers subdivided from the above (denoted R020-R05F), and 128 8-bit registers subdivided from the above (denoted R060-R0DF).
 
@@ -69,7 +71,7 @@ Sets the bus to the value in TMP.
 #### RBUS (0x0007)
  - Version >= Enygma-v1
 
-Sets the bus to the value in a general register. Always puts it on the bottom of the bus.
+Sets the bus to the value in a general register. If a subdivided register is used and flag bit 16 is zero, the part of the word aligned with the register is put in the bus. If flag bit 16 is one and a 16-bit register is used, then the right half (16-31) of the bus is set if flag bit 17 is one, and the other half if flag bit 17 is zero. If an eight-bit register is used, then the rightmost quarter of the bus is set if flag bits 17 and 18 are both one, the middle-right quarter if 17 is one and 18 is zero, etc. Bits that are outside of the part of the bus being set are not affected.
 #### LOAD (0x0008)
  - Version >= Enygma-v1
 
