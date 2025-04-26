@@ -1,9 +1,9 @@
 # Enygma
-Enygma is an emulated virtual machine on a custom 32-bit architecture. It is  very simple to be able to run in simple environments, with no regard paid to the difficulty of a hardware implementation.
+Enygma is an emulated virtual machine on a custom 32-bit architecture. It is very simple to be able to run in simple environments, with no regard paid to the difficulty of a hardware implementation.
 
 ## Functional Details
 ### Program Counter
-The program counter is a 32-bit register that holds the address. It starts at 0x00000A00 and increments by one after every instruction unless otherwise noted. It is unsigned; thus, it cannot have two's complement negativity.
+The program counter is a 32-bit register that holds the address. It starts at 0x0000A000 and increments by one after every instruction unless otherwise noted. It is unsigned; thus, it cannot have two's complement negativity.
 ### Specialty Registers
 ACC is a special register placed on one side of the top of the ALU used to accumulate data.
 
@@ -39,23 +39,40 @@ Adds ACC and DBUS together and puts the result in TMP.
  - Version >= Enygma-v1
 
 Halts the VM until any interrupt bit is 1.
-#### DBUS (0x0001)
+#### HASFPU (0x0001)
+ - Version >= Enygma-v1
+
+Sets R000 to 1 if there is a floating-point unit, and to 0 if not.
+#### SYSVER (0x0002)
+ - Version >= Enygma-v1
+
+Sets R000 to the version of Enygma-VM.
+ - Enygma-v1: 0x0000
+#### DATA (0x0003)
  - Version >= Enygma-v1
 
 Puts the data in the next memory address onto the bus.
-#### DACC (0x0002)
- - Version >= Enygma-v1
-
-Puts the data in the next memory address into ACC.
-#### DGRF (0x0003)
- - Version >= Enygma-v1
-
-Puts the data in the next memory address into a general register. If a full-width register is used, it puts the whole word into the register. If subdivided, it puts the part of the word aligned with the register in the register (e.g. R021 would load bits 8-15, starting from 0).
-#### HASFPU (0x0004)
- - Version >= Engygma-v1
-
-Sets R000 to 1 if there is a floating-point unit, and to 0 if not.
-#### BGRF (0x0005)
+#### BGRF (0x0004)
  - Version >= Enygma-v1
 
 Sets a general register to the value on the bus. If a subdivided register is used and flag bit 16 is zero, the part of the word aligned with the register is put in the register. If flag bit 16 is one and a 16-bit register is used, then the right half (16-31) of the bus is used if flag bit 17 is one, and the other half if flag bit 17 is zero. If an eight-bit register is used, then the rightmost quarter of the bus is used if flag bits 17 and 18 are both one, the middle-right quarter if 17 is one and 18 is zero, etc.
+#### BACC (0x0005)
+ - Version >= Enygma-v1
+
+Sets ACC to the value on the bus.
+#### TBUS (0x0006)
+ - Version >= Enygma-v1
+
+Sets the bus to the value in TMP.
+#### RBUS (0x0007)
+ - Version >= Enygma-v1
+
+Sets the bus to the value in a general register. Always puts it on the bottom of the bus.
+#### LOAD (0x0008)
+ - Version >= Enygma-v1
+
+Loads a word from memory based on the address of a full-width register and puts it on the bus. Throws an exception if the register is not full-width.
+#### STOR (0x0009)
+ - Version >= Enygma-v1
+
+Takes the data on the bus and stores it in the memory location given in a full width register. Throws an exception if the register is not full-width.
