@@ -39,6 +39,14 @@ The flags are used to change the function of an instruction. What they mean, if 
  - Version >= Enygma-v1
 
 Adds ACC and DBUS together and puts the result in TMP.
+##### NOT (0x8001)
+ - Version >= Enygma-v1
+
+Logical not's ACC and puts the result in TMP.
+##### NEG (0x8002)
+ - Version >= Enygma-v1
+
+Gets the negative of ACC (logical not, and adds 1) and puts the result in TMP.
 #### HLT (0x0000)
  - Version >= Enygma-v1
 
@@ -80,3 +88,10 @@ Loads a word from memory based on the address of a full-width register and puts 
  - Version >= Enygma-v1
 
 Takes the data on the bus and stores it in the memory location given in a full width register. Throws an exception if the register is not full-width.
+#### DJMPABS (0x000A)
+ - Version >= Enygma-v1
+
+Jumps to the absolute memory address given in the next byte, if all of the flag bits are zero. If flag bits are enabled, all of the flags in the FLG register must be enabled that are enabled on the instruction, according to the following matchup:
+1. Flag bit 1: FLG/carry must be enabled
+2. Flag bit 2: FLG/zero must be enabled
+3. Flag bit 3: FLG/sign must be enabled
